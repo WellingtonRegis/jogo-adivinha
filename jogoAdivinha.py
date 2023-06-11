@@ -1,5 +1,7 @@
+
+#JODO DE ADIVINHAR A PALAVRA COM TELA VISUAL
+import tkinter as tk
 import random
-#JODO DE ADIVINHAR A PALAVRA
 
 categorias = {
     "Objetos": ['caderno', 'video-game', 'computador', 'notebook'],
@@ -14,15 +16,15 @@ letras_adivinhadas = [' - '] * num_letras
 letras_digitadas = []
 tentativas = 5
 
-print(f'A palavra pertence à categoria: {categoria_escolhida}')
-print(f'A palavra possui {num_letras} letras')
-print(' '.join(letras_adivinhadas))
+def atualizar_tela():
+    categoria_label.config(text=f'A palavra pertence à categoria: {categoria_escolhida}')
+    palavra_label.config(text=f'A palavra possui {num_letras} letras')
+    letras_label.config(text=' '.join(letras_adivinhadas))
+    tentativas_label.config(text=f'Você tem {tentativas} tentativas')
+    letras_digitadas_label.config(text=f'Letras digitadas: {letras_digitadas}')
 
-while ' - ' in letras_adivinhadas and tentativas > 0:
-    print(f'Você tem {tentativas} tentativas')
-    letra = input('Digite uma letra: ')
-    print(f'Você digitou a letra {letra}')
-
+def verificar_letra(tentativas=5):
+    letra = letra_entry.get().lower()
     letras_digitadas.append(letra)
     encontrar_letra = False
 
@@ -32,15 +34,57 @@ while ' - ' in letras_adivinhadas and tentativas > 0:
             encontrar_letra = True
 
     if encontrar_letra:
-        print(f'A letra {letra} existe na palavra secreta')
+        mensagem_label.config(text=f'A letra {letra} existe na palavra secreta')
     else:
-        print(f'A letra {letra} não existe na palavra secreta')
+        mensagem_label.config(text=f'A letra {letra} não existe na palavra secreta')
         tentativas -= 1
 
-    print(''.join(letras_adivinhadas))
-    print(f'Letras digitadas: {letras_digitadas}')
+    if ' - ' not in letras_adivinhadas:
+        resultado_label.config(text=f'Parabéns! Você acertou a palavra secreta: {palavra_escolhida}')
+        letra_entry.config(state=tk.DISABLED, width=30, justify=tk.CENTER)
+        verificar_button.config(state=tk.DISABLED)
+    elif tentativas == 0:
+        resultado_label.config(text=f'Desculpe! Infelizmente você excedeu o número de tentativas e perdeu o jogo. A palavra secreta era: {palavra_escolhida}')
+        letra_entry.config(state=tk.DISABLED, width=30, justify=tk.CENTER)
+        verificar_button.config(state=tk.DISABLED)
 
-if ' - ' not in letras_adivinhadas:
-    print(f'Parabéns! Você acertou a palavra secreta: {palavra_escolhida}'.upper())
-else:
-    print(f'Desculpe! Infelizmente você excedeu o número de tentativas e perdeu o jogo. A palavra secreta era: {palavra_escolhida}'.upper())
+    atualizar_tela()
+    letra_entry.delete(0, tk.END)
+
+
+root = tk.Tk()
+root.title('Jogo da Forca')
+
+# Configuração dos widgets
+categoria_label = tk.Label(root, text=f'A palavra pertence à categoria: {categoria_escolhida}')
+categoria_label.pack()
+
+palavra_label = tk.Label(root, text=f'A palavra possui {num_letras} letras')
+palavra_label.pack()
+
+letras_label = tk.Label(root, text=' '.join(letras_adivinhadas))
+letras_label.pack()
+
+tentativas_label = tk.Label(root, text=f'Você tem {tentativas} tentativas')
+tentativas_label.pack()
+
+letra_entry = tk.Entry(root, width=30)
+letra_entry.pack()
+
+verificar_button = tk.Button(root, text='Verificar', command=verificar_letra)
+verificar_button.pack()
+
+letras_digitadas_label = tk.Label(root, text='Letras digitadas: ')
+letras_digitadas_label.pack()
+
+mensagem_label = tk.Label(root, text='')
+mensagem_label.pack()
+
+resultado_label = tk.Label(root, text='')
+resultado_label.pack()
+
+
+atualizar_tela()
+
+
+root.mainloop()
