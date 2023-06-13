@@ -1,7 +1,9 @@
 
-#JODO DE ADIVINHAR A PALAVRA COM TELA VISUAL
+#ADICAO DE BOTOES NA TELA ITERATIVA
+
 import tkinter as tk
 import random
+from tkinter import messagebox
 
 categorias = {
     "Objetos": ['caderno', 'video-game', 'computador', 'notebook'],
@@ -44,14 +46,41 @@ def verificar_letra():
         resultado_label.config(text=f'Parabéns! Você acertou a palavra secreta: {palavra_escolhida}'.upper())
         letra_entry.config(state=tk.DISABLED, width=30, justify=tk.CENTER)
         verificar_button.config(state=tk.DISABLED)
+        continuar_parar_button.config(state=tk.DISABLED)
     elif tentativas == 0:
         resultado_label.config(text=f'Desculpe! Infelizmente você excedeu o número de tentativas e perdeu o jogo. A palavra secreta era: {palavra_escolhida}'.upper())
         letra_entry.config(state=tk.DISABLED, width=30, justify=tk.CENTER)
         verificar_button.config(state=tk.DISABLED)
+        continuar_parar_button.config(state=tk.DISABLED)
 
     atualizar_tela()
     letra_entry.delete(0, tk.END)
 
+def reiniciar_jogo():
+    global categoria_escolhida, palavra_escolhida, num_letras, letras_adivinhadas, letras_digitadas, tentativas
+
+    categoria_escolhida = random.choice(list(categorias.keys()))
+    palavra_escolhida = random.choice(categorias[categoria_escolhida])
+    num_letras = len(palavra_escolhida)
+    letras_adivinhadas = [' - '] * num_letras
+    letras_digitadas = []
+    tentativas = 5
+
+    letra_entry.config(state=tk.NORMAL, width=30, justify=tk.CENTER)
+    verificar_button.config(state=tk.NORMAL)
+    continuar_parar_button.config(state=tk.NORMAL)
+    resultado_label.config(text='')
+    mensagem_label.config(text='')
+
+    atualizar_tela()
+
+def perguntar_continuar_parar():
+    resposta = messagebox.askyesno("Continuar ou Parar", "Deseja continuar jogando?")
+
+    if resposta:
+        reiniciar_jogo()
+    else:
+        root.destroy()
 
 root = tk.Tk()
 root.title('Jogo da Forca')
@@ -84,8 +113,12 @@ mensagem_label.pack()
 resultado_label = tk.Label(root, text='')
 resultado_label.pack()
 
+reiniciar_button = tk.Button(root, text='Reiniciar', command=reiniciar_jogo)
+reiniciar_button.pack()
+
+continuar_parar_button = tk.Button(root, text='Continuar/Parar', command=perguntar_continuar_parar)
+continuar_parar_button.pack()
 
 atualizar_tela()
-
 
 root.mainloop()
