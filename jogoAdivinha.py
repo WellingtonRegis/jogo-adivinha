@@ -49,7 +49,7 @@ def verificar_letra():
         continuar_parar_button.config(state=tk.DISABLED)
     elif tentativas == 0:
         resultado_label.config(text=f'Desculpe! Infelizmente você excedeu o número de tentativas e perdeu o jogo. A palavra secreta era: {palavra_escolhida}'.upper())
-        letra_entry.config(state=tk.DISABLED, width=30, justify=tk.CENTER)
+        letra_entry.config(state=tk.DISABLED, width=10, justify=tk.CENTER)
         verificar_button.config(state=tk.DISABLED)
         continuar_parar_button.config(state=tk.DISABLED)
 
@@ -98,7 +98,7 @@ letras_label.pack()
 tentativas_label = tk.Label(root, text=f'Você tem {tentativas} tentativas')
 tentativas_label.pack()
 
-letra_entry = tk.Entry(root, width=30)
+letra_entry = tk.Entry(root, width=10)
 letra_entry.pack()
 
 verificar_button = tk.Button(root, text='Verificar', command=verificar_letra)
