@@ -83,7 +83,7 @@ def perguntar_continuar_parar():
         root.destroy()
 
 root = tk.Tk()
-root.title('Jogo da Forca')
+root.title('JODO ADIVINHA A PALAVRA !')
 
 # Configuração dos widgets
 categoria_label = tk.Label(root, text=f'A palavra pertence à categoria: {categoria_escolhida}')
