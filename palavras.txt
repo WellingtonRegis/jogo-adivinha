@@ -1,0 +1,12 @@
+Objetos:caderno
+Objetos:video-game
+Objetos:computador
+Objetos:notebook
+Veículos:chevrolet
+Veículos:toyota
+Veículos:honda
+Veículos:ford
+Eletrônicos:celular
+Eletrônicos:tablet
+Eletrônicos:televisão
+Eletrônicos:fones de ouvido
